@@ -1,0 +1,168 @@
+# Makola Market Inventory and Sales System
+
+# 1. Initialize Inventory
+inventory = {
+    "Tomatoes": {"stock": 150, "price_per_unit": 5.0},
+    "Onions": {"stock": 80, "price_per_unit": 3.5},
+    "Garden Eggs": {"stock": 200, "price_per_unit": 1.0}
+}
+
+transactions = 0
+
+# 2. Sales Loop
+while True:
+    item = input(
+        "Enter item name to purchase (Tomatoes, Onions, Garden Eggs) or 'exit': "
+    ).strip()
+
+    if item.lower() == "exit":
+        print("Closing sales. Total transactions completed:", transactions)
+        break
+
+    # 3. Transaction Logic
+    if item not in inventory:
+        print("Item not found in stock. Check spelling.")
+        continue
+
+    try:
+        quantity = int(input("Enter quantity to buy: "))
+    except ValueError:
+        print("Please enter a valid number for quantity.")
+        continue
+
+    available_stock = inventory[item]["stock"]
+    price = inventory[item]["price_per_unit"]
+
+    if quantity > available_stock:
+        print(
+            f"Sorry, only {available_stock} units of {item} remaining."
+        )
+    elif quantity <= 0:
+        print("Quantity must be greater than zero.")
+    else:
+        total_cost = quantity * price
+        inventory[item]["stock"] -= quantity
+        transactions += 1
+
+        print(
+            f"Sale successful! Cost: GHS {total_cost:.2f}. "
+            f"{inventory[item]['stock']} units of {item} remaining."
+        )
+
+
+# Question 2: Ghana Water Company (GWCL) Bill Calculator
+
+print("=" * 50)
+print("GHANA WATER COMPANY (GWCL) BILL CALCULATOR")
+print("=" * 50)
+
+# 1. Input: Get monthly water consumption
+consumption = float(input("Total water consumption for the month (in cubic meters): "))
+
+# 2. Calculation
+# Fixed service charge
+service_charge = 15.00
+consumption_cost = 0.0
+total_bill = service_charge  # Start with service charge
+
+# Tiered tariff calculation
+if consumption <= 15:
+    # All consumption at 0.90 GHS/m³
+    consumption_cost = consumption * 0.90
+elif consumption <= 30:
+    # First 15 m³ at 0.90 GHS/m³
+    consumption_cost = 15 * 0.90
+    # Remaining consumption (16-30) at 1.20 GHS/m³
+    consumption_cost += (consumption - 15) * 1.20
+else:
+    # First 15 m³ at 0.90 GHS/m³
+    consumption_cost = 15 * 0.90
+    # Next 15 m³ (16-30) at 1.20 GHS/m³
+    consumption_cost += 15 * 1.20
+    # Remaining consumption (31+) at 1.80 GHS/m³
+    consumption_cost += (consumption - 30) * 1.80
+
+# Calculate total bill
+total_bill += consumption_cost
+
+# 3. Output
+print("\n" + "-" * 40)
+print("Monthly Water Bill Summary")
+print("-" * 40)
+print(f"Consumption: {consumption} m³")
+print(f"Service Charge: GHS {service_charge:.2f}")
+print(f"Consumption Cost: GHS {consumption_cost:.2f}")
+print(f"Total Bill: GHS {total_bill:.2f}")
+print("-" * 40)
+
+# Question 3: Traffic Speed Analyzer for Road Safety
+
+print("=" * 50)
+print("TRAFFIC SPEED ANALYZER FOR ROAD SAFETY")
+print("=" * 50)
+
+# 1. Initial Data
+recorded_speeds = [95, 110, 100, 85, 125, 90, 105, 115, 70, 130, 99, 101, 88]
+SPEED_LIMIT = 100
+
+print(f"Speed limit: {SPEED_LIMIT} km/h")
+print(f"Recorded speeds: {recorded_speeds}")
+
+# 2. Violation Check
+speeding_violations = []
+total_speed_sum = 0
+
+print("\n" + "=" * 50)
+print("VIOLATION CHECKS")
+print("=" * 50)
+
+# Use a for loop to iterate through the recorded_speeds
+for speed in recorded_speeds:
+    total_speed_sum += speed  # Add to total for average calculation
+    
+    if speed > SPEED_LIMIT:
+        # Print warning for speeding violation
+        print(f"WARNING: Vehicle recorded at {speed} km/h. Exceeded limit of {SPEED_LIMIT} km/h.")
+        # Add the speed to the speeding_violations list
+        speeding_violations.append(speed)
+
+# 3. Data Summary
+total_vehicles = len(recorded_speeds)
+total_violations = len(speeding_violations)
+
+# Calculate percentage of speeding vehicles
+if total_vehicles > 0:
+    speeding_percentage = (total_violations / total_vehicles) * 100
+else:
+    speeding_percentage = 0
+
+# Calculate average speed
+average_speed = total_speed_sum / total_vehicles
+
+print("\n" + "=" * 50)
+print("ANALYSIS SUMMARY")
+print("=" * 50)
+print(f"Total vehicles recorded: {total_vehicles}")
+print(f"Total speeding violations: {total_violations}")
+print(f"Percentage of vehicles speeding: {speeding_percentage:.2f}%")
+print(f"Average speed of all vehicles: {average_speed:.2f} km/h")
+
+# 4. Targeted Analysis (Slicing)
+# Use list slicing to isolate speeds from 3rd to 8th vehicle (inclusive)
+# Note: Python uses 0-based indexing, so:
+# 3rd vehicle = index 2, 8th vehicle = index 7
+focused_segment = recorded_speeds[2:8]  # From index 2 to 7 (inclusive)
+
+print("\n" + "=" * 50)
+print("TARGETED ANALYSIS")
+print("=" * 50)
+print(f"Speeds for focused inspection segment (3rd to 8th vehicle): {focused_segment}")
+
+# Optional: Analyze the focused segment
+print("\nFocused Segment Analysis:")
+if focused_segment:  # Check if segment is not empty
+    segment_violations = [speed for speed in focused_segment if speed > SPEED_LIMIT]
+    print(f"  Vehicles in segment: {len(focused_segment)}")
+    print(f"  Violations in segment: {len(segment_violations)}")
+    if segment_violations:
+        print(f"  Speeding vehicles: {segment_violations}")
